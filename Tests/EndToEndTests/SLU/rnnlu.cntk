@@ -1,49 +1,42 @@
 # configuration file for CNTK ATIS for language understanding tasks
 
-stderr=$ExpDir$\ATIS\log
+precision="double"
 command=LSTM:LSTMTest
-
-type=double
+deviceId = $DeviceId$
 
 LSTM=[
     # this is the maximum size for the minibatch, since sequence minibatches are really just a single sequence
-	# can be considered as the maximum length of a sentence
+    # can be considered as the maximum length of a sentence
     action=train
-	makeMode=true
+    makeMode=true
 
-#  recurrent networks are trained with minibatch
-#  minibatch size, for example in language model, is the number of input words
-#  e.g., 6, corresponds to having 6 inputs words from one sentence
-#  In the learning process, we split an input sequence into a vector of subsequences of size T_bptt .
+    #  recurrent networks are trained with minibatch
+    #  minibatch size, for example in language model, is the number of input words
+    #  e.g., 6, corresponds to having 6 inputs words from one sentence
+    #  In the learning process, we split an input sequence into a vector of subsequences of size T_bptt .
     minibatchSize=10
 
-	# need to be small since models are updated for each minibatch
     traceLevel=1
-    # CPU is -1
-	deviceId=-1
 
     # for each epoch, maximum number of input words is set below
     epochSize=4430000
 
-# uncomment NDLNetworkBuilder to use NDL
-# need to comment out SimpleNetworkBuilder section
-#    NDLNetworkBuilder=[
-#        networkDescription=$NdlDir$\lstmNDL.txt
-#    ]
+    # output model path        
+    modelPath = $RunDir$/models/cntk.dnn
 
     SimpleNetworkBuilder=[
-	    trainingCriterion=crossentropywithsoftmax
-	    evalCriterion=crossentropywithsoftmax
+      trainingCriterion=crossentropywithsoftmax
+      evalCriterion=crossentropywithsoftmax
 
  #       # default hidden layer activity
       defaultHiddenActivity=0.1
 
-    	recurrentLayer=2
+      recurrentLayer=2
         # randomization range
         initValueScale=6.0
 
         # first layer, second layer, and output layer size
-		layerSizes=2832:50:300:127
+    layerSizes=2832:50:300:127
 
         rnnType=LSTM
         lookupTableOrder=3
@@ -56,14 +49,14 @@ LSTM=[
 
     # configuration file, base parameters
     SGD=[
-		learningRatesPerSample=0.1
+    learningRatesPerSample=0.1
         momentumPerMB=0.90
 
         gradientClippingWithTruncation=true
-		clippingThresholdPerSample=15.0
+    clippingThresholdPerSample=15.0
 
         # maximum number of epochs
-	    maxEpochs=3
+      maxEpochs=3
 
         gradientcheck=false
 
@@ -72,9 +65,6 @@ LSTM=[
 
         # Whether use AdaGrad
 #        gradUpdateType=AdaGrad
-        
-        # output model path        
-		    modelPath=$ExpDir$\cntkdebug.dnn
 
         # if validation shows that the model has no improvement, then do back-up to the previously 
         # estimated model and reduce learning rate
@@ -83,7 +73,7 @@ LSTM=[
         # settings for Auto Adjust Learning Rate
         AutoAdjust=[
             # auto learning rate adjustment
-	        autoAdjustLR=adjustafterepoch
+          autoAdjustLR=adjustafterepoch
             reduceLearnRateIfImproveLessThan=0
             increaseLearnRateIfImproveMoreThan=1000000000
 
@@ -105,19 +95,19 @@ LSTM=[
     reader=[
       # reader to use
       readerType=LUSequenceReader
-	  #typedef argvector<size_t> intargvector which is not compatible with negative number
-	  wordContext=0:1:2
+    #typedef argvector<size_t> intargvector which is not compatible with negative number
+    wordContext=0:1:2
       randomize=None
 
-	  # number of utterances to be allocated for each minibatch
-	  nbruttsineachrecurrentiter=10
-	  
+    # number of utterances to be allocated for each minibatch
+    nbruttsineachrecurrentiter=10
+    
       # if writerType is set, we will cache to a binary file
       # if the binary file exists, we will use it instead of parsing this file
       # writerType=BinaryReader
 
       #### write definition
-      wfile=$ExpDir$\sequenceSentence.bin
+      wfile=$RunDir$/sequenceSentence.bin
       #wsize - inital size of the file in MB
       # if calculated size would be bigger, that is used instead
       wsize=256
@@ -129,8 +119,8 @@ LSTM=[
       windowSize=10000
 
       unk="<unk>"
-      wordmap=$DataDir$\inputmap.txt
-      file=$DataDir$\atis.train.apos.pred.pos.head.IOB.simple
+      wordmap=$DataDir$/inputmap.txt
+      file=$DataDir$/atis.train.apos.pred.pos.head.IOB.simple
 
       #additional features sections
       #for now store as expanded category data (including label in)
@@ -152,16 +142,16 @@ LSTM=[
         dim=1
         usewordmap=true
 
-		# vocabulary size
+    # vocabulary size
         labelDim=10000
-	    labelMappingFile=$ExpDir$\sentenceLabels.txt
-	    labelType=Category
+      labelMappingFile=$RunDir$/sentenceLabels.txt
+      labelType=Category
         beginSequence="BOS"
         endSequence="EOS"
         usewordmap=true
 
         # input word list
-        token=$DataDir$\input.txt
+        token=$DataDir$/input.txt
         
         #### Write definition ####
         # sizeof(unsigned) which is the label index type
@@ -183,14 +173,14 @@ LSTM=[
       #labels sections
       labels=[
         dim=1
-	    labelType=Category
+      labelType=Category
         beginSequence="O"
         endSequence="O"
 
         # output token list
-        token=$DataDir$\output.txt
+        token=$DataDir$/output.txt
 
-	    labelMappingFile=$ExpDir$\sentenceLabels.out.txt
+      labelMappingFile=$RunDir$/sentenceLabels.out.txt
         #### Write definition ####
         # sizeof(unsigned) which is the label index type
         sectionType=labels
@@ -207,14 +197,14 @@ LSTM=[
       # reader to use
       readerType=LUSequenceReader
       randomize=None
-	  wordContext=0:1:2
-	  
+    wordContext=0:1:2
+    
       # if writerType is set, we will cache to a binary file
       # if the binary file exists, we will use it instead of parsing this file
       # writerType=BinaryReader
-	  
+    
       #### write definition
-      wfile=$ExpDir$\sequenceSentence.valid.bin
+      wfile=$RunDir$/sequenceSentence.valid.bin
       #wsize - inital size of the file in MB
       # if calculated size would be bigger, that is used instead
       wsize=256
@@ -226,8 +216,8 @@ LSTM=[
       windowSize=10000
 
       unk="<unk>"
-      wordmap=$DataDir$\inputmap.txt
-      file=$DataDir$\atis.dev.IOB.simple
+      wordmap=$DataDir$/inputmap.txt
+      file=$DataDir$/atis.dev.IOB.simple
 
       #additional features sections
       #for now store as expanded category data (including label in)
@@ -245,19 +235,19 @@ LSTM=[
         sectionType=data
       ]
       #labels sections
-	  # it should be the same as that in the training set
+    # it should be the same as that in the training set
       labelIn=[
         dim=1
 
-		# vocabulary size
+    # vocabulary size
         labelDim=10000
-	    labelMappingFile=$ExpDir$\sentenceLabels.in.txt
-	    labelType=Category
+      labelMappingFile=$RunDir$/sentenceLabels.in.txt
+      labelType=Category
         beginSequence="BOS"
         endSequence="EOS"
         usewordmap=true
 
-        token=$DataDir$\input.txt
+        token=$DataDir$/input.txt
 
         #### Write definition ####
         # sizeof(unsigned) which is the label index type
@@ -279,14 +269,14 @@ LSTM=[
       #labels sections
       labels=[
         dim=1
-	    labelType=Category
+      labelType=Category
         beginSequence="O"
         endSequence="O"
 
-        token=$DataDir$\output.txt
+        token=$DataDir$/output.txt
 
         labelDim=10000
-	    labelMappingFile=$ExpDir$\sentenceLabels.out.txt
+      labelMappingFile=$RunDir$/sentenceLabels.out.txt
         #### Write definition ####
         # sizeof(unsigned) which is the label index type
         elementSize=4
@@ -304,7 +294,7 @@ LSTM=[
           sectionType=categoryLabels
         ]
       ]
-	]
+  ]
 ]
 
 # set output files path
@@ -314,38 +304,38 @@ LSTM=[
  
 LSTMTest=[
     # this is the maximum size for the minibatch, since sequence minibatches are really just a single sequence
-	# can be considered as the maximum length of a sentence
-	action=write
+  # can be considered as the maximum length of a sentence
+  action=write
 
 # correspond to the number of words/characteres to train in a minibatch
-    minibatchSize=1
-	# need to be small since models are updated for each minibatch
+    minibatchSize=100
+  # need to be small since models are updated for each minibatch
     traceLevel=1
-	deviceId=-1
-	epochSize=4430000
-	# which is 886 * 5000
-	#recurrentLayer=1
-    defaultHiddenActivity=0.1
+  deviceId=-1
+  epochSize=4430000
+  # which is 886 * 5000
+  #recurrentLayer=1
+  defaultHiddenActivity=0.1
 
-    modelPath=$ExpDir$\cntkdebug.dnn
+  modelPath = $RunDir$/models/cntk.dnn
 
-	outputNodeNames=outputs
+  outputNodeNames=outputs
 
     reader=[
       # reader to use
       readerType=LUSequenceReader
       randomize=None
-	  wordContext=0:1:2
+    wordContext=0:1:2
       unk="<unk>"
-      wordmap=$DataDir$\inputmap.txt
-      file=$DataDir$\atis.test.apos.pred.pos.head.IOB.simple
+      wordmap=$DataDir$/inputmap.txt
+      file=$DataDir$/atis.test.apos.pred.pos.head.IOB.simple
 
       # if writerType is set, we will cache to a binary file
       # if the binary file exists, we will use it instead of parsing this file
       # writerType=BinaryReader
 
       #### write definition
-      wfile=$ExpDir$\sequenceSentence.bin
+      wfile=$RunDir$/sequenceSentence.bin
       #wsize - inital size of the file in MB
       # if calculated size would be bigger, that is used instead
       wsize=256
@@ -376,15 +366,15 @@ LSTMTest=[
       labelIn=[
         dim=1
 
-		# vocabulary size
+    # vocabulary size
         labelDim=10000
-	    labelMappingFile=$ExpDir$\sentenceLabels.txt
-	    labelType=Category
+      labelMappingFile=$RunDir$/sentenceLabels.txt
+      labelType=Category
         beginSequence="BOS"
         endSequence="EOS"
         usewordmap=true
 
-        token=$DataDir$\input.txt
+        token=$DataDir$/input.txt
 
         #### Write definition ####
         # sizeof(unsigned) which is the label index type
@@ -406,16 +396,16 @@ LSTMTest=[
       #labels sections
       labels=[
         dim=1
-	    labelType=Category
+      labelType=Category
         beginSequence="BOS"
         endSequence="EOS"
 
-        token=$DataDir$\output.txt
+        token=$DataDir$/output.txt
 
-		# vocabulary size
+    # vocabulary size
         labelDim=127
 
-	    labelMappingFile=$ExpDir$\sentenceLabels.out.txt
+      labelMappingFile=$RunDir$/sentenceLabels.out.txt
         #### Write definition ####
         # sizeof(unsigned) which is the label index type
         elementSize=4
@@ -439,8 +429,8 @@ LSTMTest=[
         writerType=LUSequenceWriter
 
         outputs=[
-            file=$OutDir$\output.rec.txt
-            token=$DataDir$\output.txt
+            file=$RunDir$/output.rec.txt
+            token=$DataDir$/output.txt
         ]
     ]
 ]
