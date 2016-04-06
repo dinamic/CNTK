@@ -4,7 +4,7 @@ tags:
     # running on every BVT job in 'E' (Examples) leg
     #- bvt-e ((flavor=='debug') ^ (device=='cpu')) 
     # running every Nightly job in 'E' (Examples) leg
-    #- nightly-e
+    - nightly-e
 
 testCases:
   CNTK Run must be completed:

@@ -12,5 +12,5 @@ fi
 # cntkrun <CNTK config file name> <additional CNTK args>
 imageLayout=cudnn
 
-cntkrun 03_ConvBatchNorm.cntk  "train=[reader=[file=$CleanDataDir/Train.txt]]  test=[reader=[file=$CleanDataDir/Test.txt]]  train=[SGD=[maxEpochs=1]]  train=[SGD=[epochSize=128]]  train=[reader=[randomize=none]]  imageLayout=\"$imageLayout\"" || exit $?
+cntkrun 03_ConvBatchNorm.cntk  "train=[reader=[file=$CleanDataDir/Train.txt]]  test=[reader=[file=$CleanDataDir/Test.txt]]  train=[reader=[randomize=none]]  imageLayout=\"$imageLayout\"" || exit $?
 
