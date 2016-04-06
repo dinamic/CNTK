@@ -1,0 +1,607 @@
+=== Running /home/mahilleb/CNTK/build/gpu/release/bin/cntk configFile=/home/mahilleb/CNTK/Tests/EndToEndTests/Examples/Image/MNIST/02_Convolution/../../../../../../Examples/Image/MNIST/Config/02_Convolution.cntk currentDirectory=/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data RunDir=/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu DataDir=/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data ConfigDir=/home/mahilleb/CNTK/Tests/EndToEndTests/Examples/Image/MNIST/02_Convolution/../../../../../../Examples/Image/MNIST/Config OutputDir=/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu DeviceId=0 timestamping=true train=[reader=[file=/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data/Train.txt]] test=[reader=[file=/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data/Test.txt]] train=[reader=[randomize=none]] imageLayout="cudnn"
+-------------------------------------------------------------------
+Build info: 
+
+		Built time: Apr  5 2016 14:23:57
+		Last modified date: Tue Apr  5 14:19:05 2016
+		Build type: release
+		Build target: GPU
+		With 1bit-SGD: no
+		Math lib: acml
+		CUDA_PATH: /usr/local/cuda-7.0
+		CUB_PATH: /usr/local/cub-1.4.1
+		CUDNN_PATH: /usr/local/cudnn-4.0
+		Build Branch: master
+		Build SHA1: 57945cac0e344b62483de260afd05299982e32de
+		Built by mahilleb on atleneu04
+		Build Path: /home/mahilleb/CNTK
+-------------------------------------------------------------------
+Changed current directory to /home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data
+04/06/2016 10:39:18: -------------------------------------------------------------------
+04/06/2016 10:39:18: Build info: 
+
+04/06/2016 10:39:18: 		Built time: Apr  5 2016 14:23:57
+04/06/2016 10:39:18: 		Last modified date: Tue Apr  5 14:19:05 2016
+04/06/2016 10:39:18: 		Build type: release
+04/06/2016 10:39:18: 		Build target: GPU
+04/06/2016 10:39:18: 		With 1bit-SGD: no
+04/06/2016 10:39:18: 		Math lib: acml
+04/06/2016 10:39:18: 		CUDA_PATH: /usr/local/cuda-7.0
+04/06/2016 10:39:18: 		CUB_PATH: /usr/local/cub-1.4.1
+04/06/2016 10:39:18: 		CUDNN_PATH: /usr/local/cudnn-4.0
+04/06/2016 10:39:18: 		Build Branch: master
+04/06/2016 10:39:18: 		Build SHA1: 57945cac0e344b62483de260afd05299982e32de
+04/06/2016 10:39:18: 		Built by mahilleb on atleneu04
+04/06/2016 10:39:18: 		Build Path: /home/mahilleb/CNTK
+04/06/2016 10:39:18: -------------------------------------------------------------------
+
+04/06/2016 10:39:18: Running on localhost at 2016/04/06 10:39:18
+04/06/2016 10:39:18: Command line: 
+/home/mahilleb/CNTK/build/gpu/release/bin/cntk  configFile=/home/mahilleb/CNTK/Tests/EndToEndTests/Examples/Image/MNIST/02_Convolution/../../../../../../Examples/Image/MNIST/Config/02_Convolution.cntk  currentDirectory=/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data  RunDir=/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu  DataDir=/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data  ConfigDir=/home/mahilleb/CNTK/Tests/EndToEndTests/Examples/Image/MNIST/02_Convolution/../../../../../../Examples/Image/MNIST/Config  OutputDir=/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu  DeviceId=0  timestamping=true  train=[reader=[file=/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data/Train.txt]]  test=[reader=[file=/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data/Test.txt]]  train=[reader=[randomize=none]]  imageLayout="cudnn"
+
+
+
+04/06/2016 10:39:18: >>>>>>>>>>>>>>>>>>>> RAW CONFIG (VARIABLES NOT RESOLVED) >>>>>>>>>>>>>>>>>>>>
+04/06/2016 10:39:18: RootDir = ".."
+ConfigDir = "$RootDir$/Config"
+DataDir   = "$RootDir$/Data"
+OutputDir = "$RootDir$/Output"
+ModelDir  = "$OutputDir$/Models"
+deviceId = 0
+imageLayout = "cudnn"
+command = train:test
+precision = "float"
+modelPath = "$ModelDir$/02_Convolution"
+ndlMacros = "$ConfigDir$/Macros.ndl"
+traceLevel=1
+numMBsToShowResult=500
+prefetch=true
+initOnCPUOnly=true
+train = [
+    action = "train"
+    NDLNetworkBuilder = [
+        networkDescription = "$ConfigDir$/02_Convolution.ndl"
+    ]
+    SGD = [
+        epochSize = 60000
+        minibatchSize = 32
+        learningRatesPerMB = 0.1*5:0.3
+        momentumPerMB = 0*10:0.7
+        maxEpochs = 15
+    ]
+    reader = [
+        readerType = "UCIFastReader"
+        file = "$DataDir$/Train-28x28.txt"
+        features = [
+            dim = 784
+            start = 1
+        ]
+        labels = [
+            dim = 1
+            start = 0
+            labelDim = 10
+            labelMappingFile = "$DataDir$/labelsmap.txt"
+        ]
+    ]    
+]
+test = [
+    action = test
+    minibatchSize = 16
+    NDLNetworkBuilder = [
+        networkDescription = "$ConfigDir$/02_Convolution.ndl"
+    ]
+    reader = [
+        readerType = "UCIFastReader"
+        file = "$DataDir$/Test-28x28.txt"
+        features = [
+            dim = 784
+            start = 1
+        ]
+        labels = [
+            dim = 1
+            start = 0
+            labelDim = 10
+            labelMappingFile = "$DataDir$/labelsmap.txt"
+        ]
+    ]
+]
+currentDirectory=/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data
+RunDir=/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu
+DataDir=/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data
+ConfigDir=/home/mahilleb/CNTK/Tests/EndToEndTests/Examples/Image/MNIST/02_Convolution/../../../../../../Examples/Image/MNIST/Config
+OutputDir=/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu
+DeviceId=0
+timestamping=true
+train=[reader=[file=/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data/Train.txt]]
+test=[reader=[file=/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data/Test.txt]]
+train=[reader=[randomize=none]]
+imageLayout="cudnn"
+
+04/06/2016 10:39:18: <<<<<<<<<<<<<<<<<<<< RAW CONFIG (VARIABLES NOT RESOLVED)  <<<<<<<<<<<<<<<<<<<<
+
+04/06/2016 10:39:18: >>>>>>>>>>>>>>>>>>>> RAW CONFIG WITH ALL VARIABLES RESOLVED >>>>>>>>>>>>>>>>>>>>
+04/06/2016 10:39:18: RootDir = ".."
+ConfigDir = "../Config"
+DataDir   = "../Data"
+OutputDir = "../Output"
+ModelDir  = "/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu/Models"
+deviceId = 0
+imageLayout = "cudnn"
+command = train:test
+precision = "float"
+modelPath = "/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu/Models/02_Convolution"
+ndlMacros = "/home/mahilleb/CNTK/Tests/EndToEndTests/Examples/Image/MNIST/02_Convolution/../../../../../../Examples/Image/MNIST/Config/Macros.ndl"
+traceLevel=1
+numMBsToShowResult=500
+prefetch=true
+initOnCPUOnly=true
+train = [
+    action = "train"
+    NDLNetworkBuilder = [
+        networkDescription = "/home/mahilleb/CNTK/Tests/EndToEndTests/Examples/Image/MNIST/02_Convolution/../../../../../../Examples/Image/MNIST/Config/02_Convolution.ndl"
+    ]
+    SGD = [
+        epochSize = 60000
+        minibatchSize = 32
+        learningRatesPerMB = 0.1*5:0.3
+        momentumPerMB = 0*10:0.7
+        maxEpochs = 15
+    ]
+    reader = [
+        readerType = "UCIFastReader"
+        file = "/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data/Train-28x28.txt"
+        features = [
+            dim = 784
+            start = 1
+        ]
+        labels = [
+            dim = 1
+            start = 0
+            labelDim = 10
+            labelMappingFile = "/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data/labelsmap.txt"
+        ]
+    ]    
+]
+test = [
+    action = test
+    minibatchSize = 16
+    NDLNetworkBuilder = [
+        networkDescription = "/home/mahilleb/CNTK/Tests/EndToEndTests/Examples/Image/MNIST/02_Convolution/../../../../../../Examples/Image/MNIST/Config/02_Convolution.ndl"
+    ]
+    reader = [
+        readerType = "UCIFastReader"
+        file = "/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data/Test-28x28.txt"
+        features = [
+            dim = 784
+            start = 1
+        ]
+        labels = [
+            dim = 1
+            start = 0
+            labelDim = 10
+            labelMappingFile = "/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data/labelsmap.txt"
+        ]
+    ]
+]
+currentDirectory=/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data
+RunDir=/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu
+DataDir=/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data
+ConfigDir=/home/mahilleb/CNTK/Tests/EndToEndTests/Examples/Image/MNIST/02_Convolution/../../../../../../Examples/Image/MNIST/Config
+OutputDir=/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu
+DeviceId=0
+timestamping=true
+train=[reader=[file=/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data/Train.txt]]
+test=[reader=[file=/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data/Test.txt]]
+train=[reader=[randomize=none]]
+imageLayout="cudnn"
+
+04/06/2016 10:39:18: <<<<<<<<<<<<<<<<<<<< RAW CONFIG WITH ALL VARIABLES RESOLVED <<<<<<<<<<<<<<<<<<<<
+
+04/06/2016 10:39:18: >>>>>>>>>>>>>>>>>>>> PROCESSED CONFIG WITH ALL VARIABLES RESOLVED >>>>>>>>>>>>>>>>>>>>
+configparameters: 02_Convolution.cntk:command=train:test
+configparameters: 02_Convolution.cntk:ConfigDir=/home/mahilleb/CNTK/Tests/EndToEndTests/Examples/Image/MNIST/02_Convolution/../../../../../../Examples/Image/MNIST/Config
+configparameters: 02_Convolution.cntk:currentDirectory=/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data
+configparameters: 02_Convolution.cntk:DataDir=/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data
+configparameters: 02_Convolution.cntk:deviceId=0
+configparameters: 02_Convolution.cntk:imageLayout=cudnn
+configparameters: 02_Convolution.cntk:initOnCPUOnly=true
+configparameters: 02_Convolution.cntk:ModelDir=/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu/Models
+configparameters: 02_Convolution.cntk:modelPath=/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu/Models/02_Convolution
+configparameters: 02_Convolution.cntk:ndlMacros=/home/mahilleb/CNTK/Tests/EndToEndTests/Examples/Image/MNIST/02_Convolution/../../../../../../Examples/Image/MNIST/Config/Macros.ndl
+configparameters: 02_Convolution.cntk:numMBsToShowResult=500
+configparameters: 02_Convolution.cntk:OutputDir=/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu
+configparameters: 02_Convolution.cntk:precision=float
+configparameters: 02_Convolution.cntk:prefetch=true
+configparameters: 02_Convolution.cntk:RootDir=..
+configparameters: 02_Convolution.cntk:RunDir=/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu
+configparameters: 02_Convolution.cntk:test=[
+    action = test
+    minibatchSize = 16
+    NDLNetworkBuilder = [
+        networkDescription = "/home/mahilleb/CNTK/Tests/EndToEndTests/Examples/Image/MNIST/02_Convolution/../../../../../../Examples/Image/MNIST/Config/02_Convolution.ndl"
+    ]
+    reader = [
+        readerType = "UCIFastReader"
+        file = "/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data/Test-28x28.txt"
+        features = [
+            dim = 784
+            start = 1
+        ]
+        labels = [
+            dim = 1
+            start = 0
+            labelDim = 10
+            labelMappingFile = "/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data/labelsmap.txt"
+        ]
+    ]
+] [reader=[file=/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data/Test.txt]]
+
+configparameters: 02_Convolution.cntk:timestamping=true
+configparameters: 02_Convolution.cntk:traceLevel=1
+configparameters: 02_Convolution.cntk:train=[
+    action = "train"
+    NDLNetworkBuilder = [
+        networkDescription = "/home/mahilleb/CNTK/Tests/EndToEndTests/Examples/Image/MNIST/02_Convolution/../../../../../../Examples/Image/MNIST/Config/02_Convolution.ndl"
+    ]
+    SGD = [
+        epochSize = 60000
+        minibatchSize = 32
+        learningRatesPerMB = 0.1*5:0.3
+        momentumPerMB = 0*10:0.7
+        maxEpochs = 15
+    ]
+    reader = [
+        readerType = "UCIFastReader"
+        file = "/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data/Train-28x28.txt"
+        features = [
+            dim = 784
+            start = 1
+        ]
+        labels = [
+            dim = 1
+            start = 0
+            labelDim = 10
+            labelMappingFile = "/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data/labelsmap.txt"
+        ]
+    ]    
+] [reader=[file=/home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data/Train.txt]] [reader=[randomize=none]]
+
+04/06/2016 10:39:18: <<<<<<<<<<<<<<<<<<<< PROCESSED CONFIG WITH ALL VARIABLES RESOLVED <<<<<<<<<<<<<<<<<<<<
+04/06/2016 10:39:18: Commands: train test
+04/06/2016 10:39:18: Precision = "float"
+04/06/2016 10:39:18: CNTKModelPath: /tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu/Models/02_Convolution
+04/06/2016 10:39:18: CNTKCommandTrainInfo: train : 15
+04/06/2016 10:39:18: CNTKCommandTrainInfo: CNTKNoMoreCommands_Total : 15
+
+04/06/2016 10:39:18: ##############################################################################
+04/06/2016 10:39:18: #                                                                            #
+04/06/2016 10:39:18: # Action "train"                                                             #
+04/06/2016 10:39:18: #                                                                            #
+04/06/2016 10:39:18: ##############################################################################
+
+04/06/2016 10:39:18: CNTKCommandTrainBegin: train
+NDLBuilder Using GPU 0
+Reading UCI file /home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data/Train.txt
+
+04/06/2016 10:39:18: Creating virgin network.
+
+Post-processing network...
+
+3 roots:
+	ce = CrossEntropyWithSoftmax()
+	err = ErrorPrediction()
+	ol.z = Plus()
+
+Validating network. 27 nodes to process in pass 1.
+
+
+Validating network. 16 nodes to process in pass 2.
+
+
+Validating network, final pass.
+
+Validating --> labels = InputValue() :  -> [10 x *]
+Validating --> ol.W = LearnableParameter() :  -> [10 x 128]
+Validating --> h1.W = LearnableParameter() :  -> [128 x 7 x 7 x 32]
+Validating --> conv2.w.W = LearnableParameter() :  -> [32 x 400]
+Validating --> conv1.w.W = LearnableParameter() :  -> [16 x 25]
+Validating --> featScale = LearnableParameter() :  -> [1 x 1]
+Validating --> features = InputValue() :  -> [28 x 28 x 1 x *]
+Validating --> featScaled = ElementTimes (featScale, features) : [1 x 1], [28 x 28 x 1 x *] -> [28 x 28 x 1 x *]
+
+Using cuDNN convolution engine for geometry: Input: 28 x 28 x 1, Output: 28 x 28 x 16, Kernel: 5 x 5 x 1, Map: 1 x 1 x 16, Stride: 1 x 1 x 1, Sharing: (1), AutoPad: (1), LowerPad: 0, UpperPad: 0.
+Validating --> conv1.c.c = Convolution (conv1.w.W, featScaled) : [16 x 25], [28 x 28 x 1 x *] -> [28 x 28 x 16 x *]
+Validating --> conv1.b.b = LearnableParameter() :  -> [1 x 1 x 16]
+Validating --> conv1.cpb = Plus (conv1.c.c, conv1.b.b) : [28 x 28 x 16 x *], [1 x 1 x 16] -> [28 x 28 x 16 x *]
+Validating --> conv1.out = RectifiedLinear (conv1.cpb) : [28 x 28 x 16 x *] -> [28 x 28 x 16 x *]
+
+Using cuDNN convolution engine for geometry: Input: 28 x 28 x 16, Output: 14 x 14 x 16, Kernel: 2 x 2 x 1, Map: 1, Stride: 2 x 2 x 1, Sharing: (1), AutoPad: (0), LowerPad: 0, UpperPad: 0.
+Validating --> pool1 = MaxPooling (conv1.out) : [28 x 28 x 16 x *] -> [14 x 14 x 16 x *]
+
+Using cuDNN convolution engine for geometry: Input: 14 x 14 x 16, Output: 14 x 14 x 32, Kernel: 5 x 5 x 16, Map: 32, Stride: 1 x 1 x 16, Sharing: (1, 1, 1), AutoPad: (1, 1, 0), LowerPad: 0, UpperPad: 0.
+Validating --> conv2.c.c = Convolution (conv2.w.W, pool1) : [32 x 400], [14 x 14 x 16 x *] -> [14 x 14 x 32 x *]
+Validating --> conv2.b.b = LearnableParameter() :  -> [1 x 1 x 32]
+Validating --> conv2.cpb = Plus (conv2.c.c, conv2.b.b) : [14 x 14 x 32 x *], [1 x 1 x 32] -> [14 x 14 x 32 x *]
+Validating --> conv2.out = RectifiedLinear (conv2.cpb) : [14 x 14 x 32 x *] -> [14 x 14 x 32 x *]
+
+Using cuDNN convolution engine for geometry: Input: 14 x 14 x 32, Output: 7 x 7 x 32, Kernel: 2 x 2 x 1, Map: 1, Stride: 2 x 2 x 1, Sharing: (1), AutoPad: (1, 1, 0), LowerPad: 0, UpperPad: 0.
+Validating --> pool2.p = Pooling (conv2.out) : [14 x 14 x 32 x *] -> [7 x 7 x 32 x *]
+Validating --> h1.t = Times (h1.W, pool2.p) : [128 x 7 x 7 x 32], [7 x 7 x 32 x *] -> [128 x *]
+Validating --> h1.b = LearnableParameter() :  -> [128 x 1]
+Validating --> h1.z = Plus (h1.t, h1.b) : [128 x *], [128 x 1] -> [128 x 1 x *]
+Validating --> h1.y = Sigmoid (h1.z) : [128 x 1 x *] -> [128 x 1 x *]
+Validating --> ol.t = Times (ol.W, h1.y) : [10 x 128], [128 x 1 x *] -> [10 x 1 x *]
+Validating --> ol.b = LearnableParameter() :  -> [10 x 1]
+Validating --> ol.z = Plus (ol.t, ol.b) : [10 x 1 x *], [10 x 1] -> [10 x 1 x *]
+Validating --> ce = CrossEntropyWithSoftmax (labels, ol.z) : [10 x *], [10 x 1 x *] -> [1]
+Validating --> err = ErrorPrediction (labels, ol.z) : [10 x *], [10 x 1 x *] -> [1]
+
+
+11 out of 27 nodes do not share the minibatch layout with the input data.
+
+Post-processing network complete.
+
+04/06/2016 10:39:19: Created model with 27 nodes on GPU 0.
+
+04/06/2016 10:39:19: Training criterion node(s):
+04/06/2016 10:39:19: 	ce = CrossEntropyWithSoftmax
+
+04/06/2016 10:39:19: Evaluation criterion node(s):
+
+04/06/2016 10:39:19: 	err = ErrorPrediction
+
+
+Allocating matrices for forward and/or backward propagation.
+04/06/2016 10:39:19: No PreCompute nodes found, skipping PreCompute step.
+
+04/06/2016 10:39:19: Starting Epoch 1: learning rate per sample = 0.003125  effective momentum = 0.000000  momentum as time constant = 0.0 samples
+UCIFastReader: Starting at epoch 0, counting lines to determine record count...
+ 1000 records found.
+starting epoch 0 at record count 0, and file position 0
+already there from last epoch
+
+04/06/2016 10:39:19: Starting minibatch loop.
+04/06/2016 10:39:42:  Epoch[ 1 of 15]-Minibatch[   1- 500, 26.67%]: SamplesSeen = 15640; TrainLossPerSample =  2.37650206; EvalErr[0]PerSample = 0.90620205; TotalTime = 22.3591s; SamplesPerSecond = 699.5
+04/06/2016 10:40:04:  Epoch[ 1 of 15]-Minibatch[ 501-1000, 53.33%]: SamplesSeen = 15616; TrainLossPerSample =  2.37632126; EvalErr[0]PerSample = 0.90900359; TotalTime = 22.1158s; SamplesPerSecond = 706.1
+04/06/2016 10:40:26:  Epoch[ 1 of 15]-Minibatch[1001-1500, 80.00%]: SamplesSeen = 15640; TrainLossPerSample =  2.37608696; EvalErr[0]PerSample = 0.90767263; TotalTime = 22.1973s; SamplesPerSecond = 704.6
+04/06/2016 10:40:45: Finished Epoch[ 1 of 15]: [Training Set] TrainLossPerSample = 2.3773007; TotalSamplesSeen = 60000; EvalErrPerSample = 0.90745002; AvgLearningRatePerSample = 0.003125; EpochTime=85.2589
+04/06/2016 10:40:45: SGD: Saving checkpoint model '/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu/Models/02_Convolution.1'
+
+04/06/2016 10:40:45: Starting Epoch 2: learning rate per sample = 0.003125  effective momentum = 0.000000  momentum as time constant = 0.0 samples
+starting epoch 1 at record count 60000, and file position 0
+already there from last epoch
+
+04/06/2016 10:40:45: Starting minibatch loop.
+04/06/2016 10:41:07:  Epoch[ 2 of 15]-Minibatch[   1- 500, 26.67%]: SamplesSeen = 16000; TrainLossPerSample =  2.37392383; EvalErr[0]PerSample = 0.91031250; TotalTime = 22.4531s; SamplesPerSecond = 712.6
+04/06/2016 10:41:29:  Epoch[ 2 of 15]-Minibatch[ 501-1000, 53.33%]: SamplesSeen = 16000; TrainLossPerSample =  2.37583252; EvalErr[0]PerSample = 0.91050000; TotalTime = 22.4525s; SamplesPerSecond = 712.6
+04/06/2016 10:41:52:  Epoch[ 2 of 15]-Minibatch[1001-1500, 80.00%]: SamplesSeen = 16000; TrainLossPerSample =  2.37480029; EvalErr[0]PerSample = 0.91006250; TotalTime = 22.4520s; SamplesPerSecond = 712.6
+04/06/2016 10:42:09: Finished Epoch[ 2 of 15]: [Training Set] TrainLossPerSample = 2.3746259; TotalSamplesSeen = 120000; EvalErrPerSample = 0.91028333; AvgLearningRatePerSample = 0.003125; EpochTime=84.1976
+04/06/2016 10:42:09: SGD: Saving checkpoint model '/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu/Models/02_Convolution.2'
+
+04/06/2016 10:42:09: Starting Epoch 3: learning rate per sample = 0.003125  effective momentum = 0.000000  momentum as time constant = 0.0 samples
+starting epoch 2 at record count 120000, and file position 0
+already there from last epoch
+
+04/06/2016 10:42:09: Starting minibatch loop.
+04/06/2016 10:42:31:  Epoch[ 3 of 15]-Minibatch[   1- 500, 26.67%]: SamplesSeen = 16000; TrainLossPerSample =  2.37064575; EvalErr[0]PerSample = 0.91125000; TotalTime = 22.4535s; SamplesPerSecond = 712.6
+04/06/2016 10:42:54:  Epoch[ 3 of 15]-Minibatch[ 501-1000, 53.33%]: SamplesSeen = 16000; TrainLossPerSample =  2.37051685; EvalErr[0]PerSample = 0.91162500; TotalTime = 22.4531s; SamplesPerSecond = 712.6
+04/06/2016 10:43:16:  Epoch[ 3 of 15]-Minibatch[1001-1500, 80.00%]: SamplesSeen = 16000; TrainLossPerSample =  2.36946387; EvalErr[0]PerSample = 0.91200000; TotalTime = 22.4532s; SamplesPerSecond = 712.6
+04/06/2016 10:43:33: Finished Epoch[ 3 of 15]: [Training Set] TrainLossPerSample = 2.3704109; TotalSamplesSeen = 180000; EvalErrPerSample = 0.91159999; AvgLearningRatePerSample = 0.003125; EpochTime=84.244
+04/06/2016 10:43:33: SGD: Saving checkpoint model '/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu/Models/02_Convolution.3'
+
+04/06/2016 10:43:33: Starting Epoch 4: learning rate per sample = 0.003125  effective momentum = 0.000000  momentum as time constant = 0.0 samples
+starting epoch 3 at record count 180000, and file position 0
+already there from last epoch
+
+04/06/2016 10:43:33: Starting minibatch loop.
+04/06/2016 10:43:56:  Epoch[ 4 of 15]-Minibatch[   1- 500, 26.67%]: SamplesSeen = 16000; TrainLossPerSample =  2.37347119; EvalErr[0]PerSample = 0.91050000; TotalTime = 22.5480s; SamplesPerSecond = 709.6
+04/06/2016 10:44:18:  Epoch[ 4 of 15]-Minibatch[ 501-1000, 53.33%]: SamplesSeen = 16000; TrainLossPerSample =  2.37435791; EvalErr[0]PerSample = 0.91012500; TotalTime = 22.4529s; SamplesPerSecond = 712.6
+04/06/2016 10:44:41:  Epoch[ 4 of 15]-Minibatch[1001-1500, 80.00%]: SamplesSeen = 16000; TrainLossPerSample =  2.37552002; EvalErr[0]PerSample = 0.91000000; TotalTime = 22.4553s; SamplesPerSecond = 712.5
+04/06/2016 10:44:57: Finished Epoch[ 4 of 15]: [Training Set] TrainLossPerSample = 2.3749635; TotalSamplesSeen = 240000; EvalErrPerSample = 0.9102; AvgLearningRatePerSample = 0.003125; EpochTime=84.3675
+04/06/2016 10:44:57: SGD: Saving checkpoint model '/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu/Models/02_Convolution.4'
+
+04/06/2016 10:44:57: Starting Epoch 5: learning rate per sample = 0.003125  effective momentum = 0.000000  momentum as time constant = 0.0 samples
+starting epoch 4 at record count 240000, and file position 0
+already there from last epoch
+
+04/06/2016 10:44:57: Starting minibatch loop.
+04/06/2016 10:45:20:  Epoch[ 5 of 15]-Minibatch[   1- 500, 26.67%]: SamplesSeen = 16000; TrainLossPerSample =  2.37709595; EvalErr[0]PerSample = 0.91025000; TotalTime = 22.4523s; SamplesPerSecond = 712.6
+04/06/2016 10:45:42:  Epoch[ 5 of 15]-Minibatch[ 501-1000, 53.33%]: SamplesSeen = 16000; TrainLossPerSample =  2.37309155; EvalErr[0]PerSample = 0.91100000; TotalTime = 22.4557s; SamplesPerSecond = 712.5
+04/06/2016 10:46:05:  Epoch[ 5 of 15]-Minibatch[1001-1500, 80.00%]: SamplesSeen = 16000; TrainLossPerSample =  2.37151416; EvalErr[0]PerSample = 0.91150000; TotalTime = 22.4712s; SamplesPerSecond = 712.0
+04/06/2016 10:46:22: Finished Epoch[ 5 of 15]: [Training Set] TrainLossPerSample = 2.3732946; TotalSamplesSeen = 300000; EvalErrPerSample = 0.9110167; AvgLearningRatePerSample = 0.003125; EpochTime=84.2254
+04/06/2016 10:46:22: SGD: Saving checkpoint model '/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu/Models/02_Convolution.5'
+
+04/06/2016 10:46:22: Starting Epoch 6: learning rate per sample = 0.009375  effective momentum = 0.000000  momentum as time constant = 0.0 samples
+starting epoch 5 at record count 300000, and file position 0
+already there from last epoch
+
+04/06/2016 10:46:22: Starting minibatch loop.
+04/06/2016 10:46:44:  Epoch[ 6 of 15]-Minibatch[   1- 500, 26.67%]: SamplesSeen = 16000; TrainLossPerSample =  3.31383984; EvalErr[0]PerSample = 0.90506250; TotalTime = 22.4542s; SamplesPerSecond = 712.6
+04/06/2016 10:47:07:  Epoch[ 6 of 15]-Minibatch[ 501-1000, 53.33%]: SamplesSeen = 16000; TrainLossPerSample =  3.01763086; EvalErr[0]PerSample = 0.90668750; TotalTime = 22.5494s; SamplesPerSecond = 709.6
+04/06/2016 10:47:29:  Epoch[ 6 of 15]-Minibatch[1001-1500, 80.00%]: SamplesSeen = 16000; TrainLossPerSample =  2.80658496; EvalErr[0]PerSample = 0.90368750; TotalTime = 22.4692s; SamplesPerSecond = 712.1
+04/06/2016 10:47:46: Finished Epoch[ 6 of 15]: [Training Set] TrainLossPerSample = 2.9887502; TotalSamplesSeen = 360000; EvalErrPerSample = 0.90455002; AvgLearningRatePerSample = 0.0093750004; EpochTime=84.319
+04/06/2016 10:47:46: SGD: Saving checkpoint model '/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu/Models/02_Convolution.6'
+
+04/06/2016 10:47:46: Starting Epoch 7: learning rate per sample = 0.009375  effective momentum = 0.000000  momentum as time constant = 0.0 samples
+starting epoch 6 at record count 360000, and file position 0
+already there from last epoch
+
+04/06/2016 10:47:46: Starting minibatch loop.
+04/06/2016 10:48:09:  Epoch[ 7 of 15]-Minibatch[   1- 500, 26.67%]: SamplesSeen = 16000; TrainLossPerSample =  2.70832178; EvalErr[0]PerSample = 0.90475000; TotalTime = 22.4541s; SamplesPerSecond = 712.6
+04/06/2016 10:48:31:  Epoch[ 7 of 15]-Minibatch[ 501-1000, 53.33%]: SamplesSeen = 16000; TrainLossPerSample =  2.69422607; EvalErr[0]PerSample = 0.90600000; TotalTime = 22.4559s; SamplesPerSecond = 712.5
+04/06/2016 10:48:53:  Epoch[ 7 of 15]-Minibatch[1001-1500, 80.00%]: SamplesSeen = 16000; TrainLossPerSample =  2.64762451; EvalErr[0]PerSample = 0.90743750; TotalTime = 22.4546s; SamplesPerSecond = 712.5
+04/06/2016 10:49:10: Finished Epoch[ 7 of 15]: [Training Set] TrainLossPerSample = 2.6689305; TotalSamplesSeen = 420000; EvalErrPerSample = 0.90640002; AvgLearningRatePerSample = 0.0093750004; EpochTime=84.2029
+04/06/2016 10:49:10: SGD: Saving checkpoint model '/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu/Models/02_Convolution.7'
+
+04/06/2016 10:49:10: Starting Epoch 8: learning rate per sample = 0.009375  effective momentum = 0.000000  momentum as time constant = 0.0 samples
+starting epoch 7 at record count 420000, and file position 0
+already there from last epoch
+
+04/06/2016 10:49:10: Starting minibatch loop.
+04/06/2016 10:49:33:  Epoch[ 8 of 15]-Minibatch[   1- 500, 26.67%]: SamplesSeen = 16000; TrainLossPerSample =  2.68534399; EvalErr[0]PerSample = 0.90675000; TotalTime = 22.4541s; SamplesPerSecond = 712.6
+04/06/2016 10:49:55:  Epoch[ 8 of 15]-Minibatch[ 501-1000, 53.33%]: SamplesSeen = 16000; TrainLossPerSample =  2.65758618; EvalErr[0]PerSample = 0.90725000; TotalTime = 22.4539s; SamplesPerSecond = 712.6
+04/06/2016 10:50:18:  Epoch[ 8 of 15]-Minibatch[1001-1500, 80.00%]: SamplesSeen = 16000; TrainLossPerSample =  2.65966016; EvalErr[0]PerSample = 0.90712500; TotalTime = 22.4530s; SamplesPerSecond = 712.6
+04/06/2016 10:50:34: Finished Epoch[ 8 of 15]: [Training Set] TrainLossPerSample = 2.6710844; TotalSamplesSeen = 480000; EvalErrPerSample = 0.90698332; AvgLearningRatePerSample = 0.0093750004; EpochTime=84.2039
+04/06/2016 10:50:35: SGD: Saving checkpoint model '/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu/Models/02_Convolution.8'
+
+04/06/2016 10:50:35: Starting Epoch 9: learning rate per sample = 0.009375  effective momentum = 0.000000  momentum as time constant = 0.0 samples
+starting epoch 8 at record count 480000, and file position 0
+already there from last epoch
+
+04/06/2016 10:50:35: Starting minibatch loop.
+04/06/2016 10:50:57:  Epoch[ 9 of 15]-Minibatch[   1- 500, 26.67%]: SamplesSeen = 16000; TrainLossPerSample =  2.69509131; EvalErr[0]PerSample = 0.90575000; TotalTime = 22.4542s; SamplesPerSecond = 712.6
+04/06/2016 10:51:19:  Epoch[ 9 of 15]-Minibatch[ 501-1000, 53.33%]: SamplesSeen = 16000; TrainLossPerSample =  2.68531738; EvalErr[0]PerSample = 0.90675000; TotalTime = 22.4526s; SamplesPerSecond = 712.6
+04/06/2016 10:51:42:  Epoch[ 9 of 15]-Minibatch[1001-1500, 80.00%]: SamplesSeen = 16000; TrainLossPerSample =  2.66201270; EvalErr[0]PerSample = 0.90712500; TotalTime = 22.4555s; SamplesPerSecond = 712.5
+04/06/2016 10:51:59: Finished Epoch[ 9 of 15]: [Training Set] TrainLossPerSample = 2.6806192; TotalSamplesSeen = 540000; EvalErrPerSample = 0.90658337; AvgLearningRatePerSample = 0.0093750004; EpochTime=84.2047
+04/06/2016 10:51:59: SGD: Saving checkpoint model '/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu/Models/02_Convolution.9'
+
+04/06/2016 10:51:59: Starting Epoch 10: learning rate per sample = 0.009375  effective momentum = 0.000000  momentum as time constant = 0.0 samples
+starting epoch 9 at record count 540000, and file position 0
+already there from last epoch
+
+04/06/2016 10:51:59: Starting minibatch loop.
+04/06/2016 10:52:21:  Epoch[10 of 15]-Minibatch[   1- 500, 26.67%]: SamplesSeen = 16000; TrainLossPerSample =  2.66121484; EvalErr[0]PerSample = 0.90718750; TotalTime = 22.5491s; SamplesPerSecond = 709.6
+04/06/2016 10:52:44:  Epoch[10 of 15]-Minibatch[ 501-1000, 53.33%]: SamplesSeen = 16000; TrainLossPerSample =  2.65652881; EvalErr[0]PerSample = 0.90725000; TotalTime = 22.4542s; SamplesPerSecond = 712.6
+04/06/2016 10:53:06:  Epoch[10 of 15]-Minibatch[1001-1500, 80.00%]: SamplesSeen = 16000; TrainLossPerSample =  2.65652148; EvalErr[0]PerSample = 0.90725000; TotalTime = 22.4562s; SamplesPerSecond = 712.5
+04/06/2016 10:53:23: Finished Epoch[10 of 15]: [Training Set] TrainLossPerSample = 2.6570241; TotalSamplesSeen = 600000; EvalErrPerSample = 0.90724999; AvgLearningRatePerSample = 0.0093750004; EpochTime=84.3034
+04/06/2016 10:53:23: SGD: Saving checkpoint model '/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu/Models/02_Convolution.10'
+
+04/06/2016 10:53:23: Starting Epoch 11: learning rate per sample = 0.009375  effective momentum = 0.700000  momentum as time constant = 89.7 samples
+starting epoch 10 at record count 600000, and file position 0
+already there from last epoch
+
+04/06/2016 10:53:23: Starting minibatch loop.
+04/06/2016 10:53:46:  Epoch[11 of 15]-Minibatch[   1- 500, 26.67%]: SamplesSeen = 16000; TrainLossPerSample =  2.40487402; EvalErr[0]PerSample = 0.90668750; TotalTime = 22.4729s; SamplesPerSecond = 712.0
+04/06/2016 10:54:08:  Epoch[11 of 15]-Minibatch[ 501-1000, 53.33%]: SamplesSeen = 16000; TrainLossPerSample =  2.40227490; EvalErr[0]PerSample = 0.90775000; TotalTime = 22.4737s; SamplesPerSecond = 711.9
+04/06/2016 10:54:31:  Epoch[11 of 15]-Minibatch[1001-1500, 80.00%]: SamplesSeen = 16000; TrainLossPerSample =  2.40137402; EvalErr[0]PerSample = 0.90737500; TotalTime = 22.4748s; SamplesPerSecond = 711.9
+04/06/2016 10:54:47: Finished Epoch[11 of 15]: [Training Set] TrainLossPerSample = 2.4021986; TotalSamplesSeen = 660000; EvalErrPerSample = 0.90713334; AvgLearningRatePerSample = 0.0093750004; EpochTime=84.2776
+04/06/2016 10:54:47: SGD: Saving checkpoint model '/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu/Models/02_Convolution.11'
+
+04/06/2016 10:54:47: Starting Epoch 12: learning rate per sample = 0.009375  effective momentum = 0.700000  momentum as time constant = 89.7 samples
+starting epoch 11 at record count 660000, and file position 0
+already there from last epoch
+
+04/06/2016 10:54:47: Starting minibatch loop.
+04/06/2016 10:55:10:  Epoch[12 of 15]-Minibatch[   1- 500, 26.67%]: SamplesSeen = 16000; TrainLossPerSample =  2.40291797; EvalErr[0]PerSample = 0.90800000; TotalTime = 22.4750s; SamplesPerSecond = 711.9
+04/06/2016 10:55:32:  Epoch[12 of 15]-Minibatch[ 501-1000, 53.33%]: SamplesSeen = 16000; TrainLossPerSample =  2.40030176; EvalErr[0]PerSample = 0.90643750; TotalTime = 22.4749s; SamplesPerSecond = 711.9
+04/06/2016 10:55:55:  Epoch[12 of 15]-Minibatch[1001-1500, 80.00%]: SamplesSeen = 16000; TrainLossPerSample =  2.39896094; EvalErr[0]PerSample = 0.90600000; TotalTime = 22.4734s; SamplesPerSecond = 712.0
+04/06/2016 10:56:12: Finished Epoch[12 of 15]: [Training Set] TrainLossPerSample = 2.4003742; TotalSamplesSeen = 720000; EvalErrPerSample = 0.90665001; AvgLearningRatePerSample = 0.0093750004; EpochTime=84.2779
+04/06/2016 10:56:12: SGD: Saving checkpoint model '/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu/Models/02_Convolution.12'
+
+04/06/2016 10:56:12: Starting Epoch 13: learning rate per sample = 0.009375  effective momentum = 0.700000  momentum as time constant = 89.7 samples
+starting epoch 12 at record count 720000, and file position 0
+already there from last epoch
+
+04/06/2016 10:56:12: Starting minibatch loop.
+04/06/2016 10:56:34:  Epoch[13 of 15]-Minibatch[   1- 500, 26.67%]: SamplesSeen = 16000; TrainLossPerSample =  2.39904810; EvalErr[0]PerSample = 0.90612500; TotalTime = 22.4762s; SamplesPerSecond = 711.9
+04/06/2016 10:56:57:  Epoch[13 of 15]-Minibatch[ 501-1000, 53.33%]: SamplesSeen = 16000; TrainLossPerSample =  2.40239429; EvalErr[0]PerSample = 0.90775000; TotalTime = 22.4770s; SamplesPerSecond = 711.8
+04/06/2016 10:57:19:  Epoch[13 of 15]-Minibatch[1001-1500, 80.00%]: SamplesSeen = 16000; TrainLossPerSample =  2.40543457; EvalErr[0]PerSample = 0.90781250; TotalTime = 22.4744s; SamplesPerSecond = 711.9
+04/06/2016 10:57:36: Finished Epoch[13 of 15]: [Training Set] TrainLossPerSample = 2.4030128; TotalSamplesSeen = 780000; EvalErrPerSample = 0.90738332; AvgLearningRatePerSample = 0.0093750004; EpochTime=84.2862
+04/06/2016 10:57:36: SGD: Saving checkpoint model '/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu/Models/02_Convolution.13'
+
+04/06/2016 10:57:36: Starting Epoch 14: learning rate per sample = 0.009375  effective momentum = 0.700000  momentum as time constant = 89.7 samples
+starting epoch 13 at record count 780000, and file position 0
+already there from last epoch
+
+04/06/2016 10:57:36: Starting minibatch loop.
+04/06/2016 10:57:58:  Epoch[14 of 15]-Minibatch[   1- 500, 26.67%]: SamplesSeen = 16000; TrainLossPerSample =  2.40590503; EvalErr[0]PerSample = 0.90800000; TotalTime = 22.4768s; SamplesPerSecond = 711.8
+04/06/2016 10:58:21:  Epoch[14 of 15]-Minibatch[ 501-1000, 53.33%]: SamplesSeen = 16000; TrainLossPerSample =  2.40498560; EvalErr[0]PerSample = 0.90787500; TotalTime = 22.5056s; SamplesPerSecond = 710.9
+04/06/2016 10:58:43:  Epoch[14 of 15]-Minibatch[1001-1500, 80.00%]: SamplesSeen = 16000; TrainLossPerSample =  2.40238867; EvalErr[0]PerSample = 0.90775000; TotalTime = 22.4748s; SamplesPerSecond = 711.9
+04/06/2016 10:59:00: Finished Epoch[14 of 15]: [Training Set] TrainLossPerSample = 2.4040165; TotalSamplesSeen = 840000; EvalErrPerSample = 0.90785003; AvgLearningRatePerSample = 0.0093750004; EpochTime=84.3171
+04/06/2016 10:59:00: SGD: Saving checkpoint model '/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu/Models/02_Convolution.14'
+
+04/06/2016 10:59:00: Starting Epoch 15: learning rate per sample = 0.009375  effective momentum = 0.700000  momentum as time constant = 89.7 samples
+starting epoch 14 at record count 840000, and file position 0
+already there from last epoch
+
+04/06/2016 10:59:00: Starting minibatch loop.
+04/06/2016 10:59:23:  Epoch[15 of 15]-Minibatch[   1- 500, 26.67%]: SamplesSeen = 16000; TrainLossPerSample =  2.40239331; EvalErr[0]PerSample = 0.90775000; TotalTime = 22.4753s; SamplesPerSecond = 711.9
+04/06/2016 10:59:45:  Epoch[15 of 15]-Minibatch[ 501-1000, 53.33%]: SamplesSeen = 16000; TrainLossPerSample =  2.40287964; EvalErr[0]PerSample = 0.90787500; TotalTime = 22.4753s; SamplesPerSecond = 711.9
+04/06/2016 11:00:08:  Epoch[15 of 15]-Minibatch[1001-1500, 80.00%]: SamplesSeen = 16000; TrainLossPerSample =  2.40505371; EvalErr[0]PerSample = 0.90781250; TotalTime = 22.4699s; SamplesPerSecond = 712.1
+04/06/2016 11:00:25: Finished Epoch[15 of 15]: [Training Set] TrainLossPerSample = 2.4039326; TotalSamplesSeen = 900000; EvalErrPerSample = 0.90785003; AvgLearningRatePerSample = 0.0093750004; EpochTime=84.2741
+04/06/2016 11:00:25: SGD: Saving checkpoint model '/tmp/cntk-test-20160406103918.734348/Examples/Image/MNIST_02_Convolution@release_gpu/Models/02_Convolution'
+04/06/2016 11:00:25: CNTKCommandTrainEnd: train
+
+04/06/2016 11:00:25: Action "train" complete.
+
+
+04/06/2016 11:00:25: ##############################################################################
+04/06/2016 11:00:25: #                                                                            #
+04/06/2016 11:00:25: # Action "test"                                                              #
+04/06/2016 11:00:25: #                                                                            #
+04/06/2016 11:00:25: ##############################################################################
+
+Reading UCI file /home/mahilleb/CNTK/Tests/EndToEndTests/Image/Data/Test.txt
+
+Post-processing network...
+
+3 roots:
+	ce = CrossEntropyWithSoftmax()
+	err = ErrorPrediction()
+	ol.z = Plus()
+
+Validating network. 27 nodes to process in pass 1.
+
+
+Validating network. 16 nodes to process in pass 2.
+
+
+Validating network, final pass.
+
+Validating --> labels = InputValue() :  -> [10 x *]
+Validating --> ol.W = LearnableParameter() :  -> [10 x 128]
+Validating --> h1.W = LearnableParameter() :  -> [128 x 7 x 7 x 32]
+Validating --> conv2.w.W = LearnableParameter() :  -> [32 x 400]
+Validating --> conv1.w.W = LearnableParameter() :  -> [16 x 25]
+Validating --> featScale = LearnableParameter() :  -> [1 x 1]
+Validating --> features = InputValue() :  -> [28 x 28 x 1 x *]
+Validating --> featScaled = ElementTimes (featScale, features) : [1 x 1], [28 x 28 x 1 x *] -> [28 x 28 x 1 x *]
+
+Using cuDNN convolution engine for geometry: Input: 28 x 28 x 1, Output: 28 x 28 x 16, Kernel: 5 x 5 x 1, Map: 1 x 1 x 16, Stride: 1 x 1 x 1, Sharing: (1), AutoPad: (1), LowerPad: 0, UpperPad: 0.
+Validating --> conv1.c.c = Convolution (conv1.w.W, featScaled) : [16 x 25], [28 x 28 x 1 x *] -> [28 x 28 x 16 x *]
+Validating --> conv1.b.b = LearnableParameter() :  -> [1 x 1 x 16]
+Validating --> conv1.cpb = Plus (conv1.c.c, conv1.b.b) : [28 x 28 x 16 x *], [1 x 1 x 16] -> [28 x 28 x 16 x *]
+Validating --> conv1.out = RectifiedLinear (conv1.cpb) : [28 x 28 x 16 x *] -> [28 x 28 x 16 x *]
+
+Using cuDNN convolution engine for geometry: Input: 28 x 28 x 16, Output: 14 x 14 x 16, Kernel: 2 x 2 x 1, Map: 1, Stride: 2 x 2 x 1, Sharing: (1), AutoPad: (0), LowerPad: 0, UpperPad: 0.
+Validating --> pool1 = MaxPooling (conv1.out) : [28 x 28 x 16 x *] -> [14 x 14 x 16 x *]
+
+Using cuDNN convolution engine for geometry: Input: 14 x 14 x 16, Output: 14 x 14 x 32, Kernel: 5 x 5 x 16, Map: 32, Stride: 1 x 1 x 16, Sharing: (1, 1, 1), AutoPad: (1, 1, 0), LowerPad: 0, UpperPad: 0.
+Validating --> conv2.c.c = Convolution (conv2.w.W, pool1) : [32 x 400], [14 x 14 x 16 x *] -> [14 x 14 x 32 x *]
+Validating --> conv2.b.b = LearnableParameter() :  -> [1 x 1 x 32]
+Validating --> conv2.cpb = Plus (conv2.c.c, conv2.b.b) : [14 x 14 x 32 x *], [1 x 1 x 32] -> [14 x 14 x 32 x *]
+Validating --> conv2.out = RectifiedLinear (conv2.cpb) : [14 x 14 x 32 x *] -> [14 x 14 x 32 x *]
+
+Using cuDNN convolution engine for geometry: Input: 14 x 14 x 32, Output: 7 x 7 x 32, Kernel: 2 x 2 x 1, Map: 1, Stride: 2 x 2 x 1, Sharing: (1), AutoPad: (1, 1, 0), LowerPad: 0, UpperPad: 0.
+Validating --> pool2.p = Pooling (conv2.out) : [14 x 14 x 32 x *] -> [7 x 7 x 32 x *]
+Validating --> h1.t = Times (h1.W, pool2.p) : [128 x 7 x 7 x 32], [7 x 7 x 32 x *] -> [128 x *]
+Validating --> h1.b = LearnableParameter() :  -> [128 x 1]
+Validating --> h1.z = Plus (h1.t, h1.b) : [128 x *], [128 x 1] -> [128 x 1 x *]
+Validating --> h1.y = Sigmoid (h1.z) : [128 x 1 x *] -> [128 x 1 x *]
+Validating --> ol.t = Times (ol.W, h1.y) : [10 x 128], [128 x 1 x *] -> [10 x 1 x *]
+Validating --> ol.b = LearnableParameter() :  -> [10 x 1]
+Validating --> ol.z = Plus (ol.t, ol.b) : [10 x 1 x *], [10 x 1] -> [10 x 1 x *]
+Validating --> ce = CrossEntropyWithSoftmax (labels, ol.z) : [10 x *], [10 x 1 x *] -> [1]
+Validating --> err = ErrorPrediction (labels, ol.z) : [10 x *], [10 x 1 x *] -> [1]
+
+
+11 out of 27 nodes do not share the minibatch layout with the input data.
+
+Post-processing network complete.
+
+evalNodeNames are not specified, using all the default evalnodes and training criterion nodes.
+
+
+Allocating matrices for forward and/or backward propagation.
+UCIFastReader: Starting at epoch 0, counting lines to determine record count...
+ 100 records found.
+starting epoch 0 at record count 0, and file position 0
+already there from last epoch
+RandomOrdering: 21 retries for 100 elements (21.0%) to ensure window condition
+RandomOrdering: recached sequence for seed 0: 38, 46, ...
+Minibatch[1-7]: SamplesSeen = 100    err: ErrorPrediction/Sample = 0.9    ce: CrossEntropyWithSoftmax/Sample = 2.3909808    
+Final Results: Minibatch[1-7]: SamplesSeen = 100    err: ErrorPrediction/Sample = 0.9    ce: CrossEntropyWithSoftmax/Sample = 2.3909808    Perplexity = 10.924203    
+
+04/06/2016 11:00:25: Action "test" complete.
+
+04/06/2016 11:00:25: __COMPLETED__
